@@ -35,7 +35,7 @@ function loadProvince() {
 
             
             
-            console.log(data.provFeature.features[0].geometry.type);
+            // console.log(data.provFeature);
 
             // Add GeoJSON layer to the map
             L.geoJSON(data.provFeature).addTo(map);
