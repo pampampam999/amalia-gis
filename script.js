@@ -16,7 +16,7 @@ function loadProvince() {
     }
 
     // Construct the API URL
-    var apiUrl = `https://zulham.ahlitani.com/geo/v1/prov/${provinceId}/map`;
+    let apiUrl = `https://zulham.ahlitani.com/geo/v1/prov/${provinceId}/map`;
 
     fetch(apiUrl)
         .then(response => {
@@ -48,5 +48,52 @@ function loadProvince() {
             alert('Failed to load province data');
         });
 
+
+}
+
+function loadCity(){
+    // console.log("Ini Load City");
+
+    var cityId = document.getElementById('cityId').value;
+
+    console.log(cityId);
+
+    if(!cityId){
+        alert("Please enter a city ID");
+        return;
+    }
+
+    // Construct the API URL
+    let apiUrl = `https://zulham.ahlitani.com/geo/v1/city/${cityId}/map`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Clear any existing layers
+            // map.eachLayer(function (layer) {
+            //     if (layer !== map.tileLayer) {
+            //         map.removeLayer(layer);
+            //     }
+            // });
+
+            
+            
+            // console.log(data.provFeature);
+
+            // Add GeoJSON layer to the map
+            L.geoJSON(data.cityFeature).addTo(map);
+
+            // Fit the map to the GeoJSON layer
+            map.fitBounds(L.geoJSON(data.cityFeature).getBounds());
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            alert('Failed to load city data');
+        });
 
 }
